@@ -16,14 +16,11 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class ApiClientConfig {
 
-    @Value("${url.inventory.host}")
-    private String inventoryServiceHostUrl;
+    @Value("${url.host}")
+    private String urlHostBasePath;
 
     @Value("${url.inventory.path}")
     private String inventoryServicePath;
-
-    @Value("${url.auth.host}")
-    private String authServiceHostUrl;
 
     @Value("${url.auth.path}")
     private String authServicePath;
@@ -44,7 +41,7 @@ public class ApiClientConfig {
     public com.kibocommerce.sdk.auth.ApiClient authApiClient() {
         com.kibocommerce.sdk.auth.ApiClient authApiClient = new com.kibocommerce.sdk.auth.ApiClient();
 
-        authApiClient.setBasePath(authServiceHostUrl + authServicePath);
+        authApiClient.setBasePath(urlHostBasePath + authServicePath);
         authApiClient.setReadTimeout(7000);
 
         return authApiClient;
@@ -82,7 +79,7 @@ public class ApiClientConfig {
     public ApiClient inventoryApiClient() {
         ApiClient inventoryApiClient = new ApiClient();
 
-        inventoryApiClient.setBasePath(inventoryServiceHostUrl + inventoryServicePath);
+        inventoryApiClient.setBasePath(urlHostBasePath + inventoryServicePath);
         inventoryApiClient.setReadTimeout(7000);
         inventoryApiClient.addDefaultHeader("Authorization", "Bearer " + authAccessToken().getAccessToken());
 
