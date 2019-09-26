@@ -43,7 +43,7 @@ public class SdkdemoApplication {
             //upc of the product you want to refresh and get inventory for
             String upc = "testupc";
             //code for the exact location of the product you want to refresh and get inventory for
-            String locationCode = "70";
+            String locationCode = "testLocationCode";
             //qty you want to set for the product
             Integer productQty = 55;
 

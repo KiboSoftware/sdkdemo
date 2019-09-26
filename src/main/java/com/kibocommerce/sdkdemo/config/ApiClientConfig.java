@@ -16,8 +16,11 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class ApiClientConfig {
 
-    @Value("${url.host}")
-    private String urlHostBasePath;
+    @Value("${url.inventory.host}")
+    private String inventoryUrlHostBasePath;
+
+    @Value("${url.auth.host}")
+    private String authUrlHostBasePath;
 
     @Value("${url.inventory.path}")
     private String inventoryServicePath;
@@ -41,7 +44,7 @@ public class ApiClientConfig {
     public com.kibocommerce.sdk.auth.ApiClient authApiClient() {
         com.kibocommerce.sdk.auth.ApiClient authApiClient = new com.kibocommerce.sdk.auth.ApiClient();
 
-        authApiClient.setBasePath(urlHostBasePath + authServicePath);
+        authApiClient.setBasePath(authUrlHostBasePath + authServicePath);
         authApiClient.setReadTimeout(7000);
 
         return authApiClient;
@@ -62,7 +65,7 @@ public class ApiClientConfig {
         mozuAppDevContractsOauthAuthRequest.setGrantType("client_credentials");
 
         try {
-            MozuAppDevContractsOAuthAccessTokenResponse response = appAuthTicketsApi().oauthAuthenticateApp(tenantID, siteID, mozuAppDevContractsOauthAuthRequest);
+            MozuAppDevContractsOAuthAccessTokenResponse response = appAuthTicketsApi().oauthAuthenticateApp(null, null, mozuAppDevContractsOauthAuthRequest);
 
             if (response != null) {
                 return response;
@@ -79,7 +82,7 @@ public class ApiClientConfig {
     public ApiClient inventoryApiClient() {
         ApiClient inventoryApiClient = new ApiClient();
 
-        inventoryApiClient.setBasePath(urlHostBasePath + inventoryServicePath);
+        inventoryApiClient.setBasePath(inventoryUrlHostBasePath + inventoryServicePath);
         inventoryApiClient.setReadTimeout(7000);
         inventoryApiClient.addDefaultHeader("Authorization", "Bearer " + authAccessToken().getAccessToken());
 
